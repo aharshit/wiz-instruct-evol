@@ -1,0 +1,60 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project artifacts
+*.pickle
+*.json
+*.uuid
+prompts.pickle
+responses.pickle
+synthesized_instructions.pickle
+generated_responses.pickle
+synthesis_output*.json
+
+# Models and data
+checkpoints/
+models/
+data/
+outputs/
+results/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
+logs/
