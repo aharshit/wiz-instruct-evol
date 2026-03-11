@@ -51,12 +51,85 @@ The synthesizer applies multiple evolution strategies:
 6. **Increase Reasoning** - Require multi-step thinking
 7. **Switch Topic** - Change domain while maintaining difficulty
 
-## Key Components
+## Project Structure
 
-- **InstructionSynthesizer**: Main orchestrator for instruction evolution
-- **LocalModelClient**: Interface for local HuggingFace model inference
-- **RemoteModelClient**: Interface for Gradio-hosted remote models
-- **EvolutionStrategy**: Enumeration of mutation types
+```
+wiz-instruct-evol/
+├── synthesizer/                    # Core package
+│   ├── __init__.py                # Package exports
+│   ├── core.py                    # InstructionSynthesizer class
+│   ├── models.py                  # Model clients (Local/Remote)
+│   ├── strategies.py              # Evolution strategies enum
+│   ├── utils.py                   # Utility functions
+│   └── validators.py              # Validation & cleaning logic
+├── instruction_synthesizer.py      # Main entry point
+├── english-nouns.txt              # Vocabulary corpus
+├── requirements.txt               # Dependencies
+├── README.md                       # This file
+└── .gitignore                     # Git configuration
+```
+
+## Module Reference
+
+### `synthesizer.core`
+**InstructionSynthesizer** - Main orchestrator class
+- `execute()` - Run full synthesis pipeline
+- `_prepare_seed_instructions()` - Initialize seed data
+- `_evolve_instructions()` - Iteratively mutate instructions
+- `_perform_evolution_cycle()` - Single evolution iteration
+- `_generate_responses()` - Generate answers for instructions
+- `_save_final_dataset()` - Export results
+
+### `synthesizer.models`
+**LocalModelClient** - HuggingFace Transformers interface
+**RemoteModelClient** - Gradio API client interface
+
+### `synthesizer.strategies`
+**EvolutionStrategy** enum with mutation types
+
+### `synthesizer.utils`
+- `convert_markdown_to_plaintext()` - Markdown to text conversion
+- `build_dataset_from_list()` - Create HF datasets
+
+### `synthesizer.validators`
+- `clean_instruction_output()` - Normalize LM outputs
+- `validate_instruction_evolution()` - Quality validation
+
+## Example Usage
+
+```python
+from synthesizer import InstructionSynthesizer, LocalModelClient
+
+# Initialize model client
+model = LocalModelClient(
+    "distilgpt2",
+    max_generation_length=128,
+    batch_size=1,
+    do_sample=True
+)
+
+# Create synthesizer
+synthesizer = InstructionSynthesizer(
+    language_model=model,
+    initial_prompts=None,
+    target_count=8,
+    min_length_bytes=256,
+    max_length_bytes=1024,
+    verbose=True
+)
+
+# Run synthesis
+synthesizer.execute()
+```
+
+## Features
+
+- ✅ Modular package architecture
+- ✅ Support for local and remote LLM backends
+- ✅ Comprehensive input validation
+- ✅ Flexible mutation strategy selection
+- ✅ JSON output for easy integration
+- ✅ Pickle artifacts for analysis
 
 ## Current Limitations
 
@@ -72,6 +145,7 @@ The synthesizer applies multiple evolution strategies:
 - Support for diverse instruction/input formats
 - Integration with open-source model pipelines
 - Performance optimization for larger datasets
+- Configuration file support (YAML/JSON)
 
 ## License
 
